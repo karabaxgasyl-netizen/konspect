@@ -1,0 +1,62 @@
+[
+ {
+  "id": "geography-9",
+  "name": "География",
+  "grade": "9 класс",
+  "book": "Алексеев А. И. и др. «География России. Хозяйство и географические районы»",
+  "icon": "globe",
+  "color": "#2F6F5E",
+  "file": "data/geography-9.json",
+  "ready": true
+ },
+ {
+  "id": "slot-2",
+  "name": "Учебник 2",
+  "grade": "",
+  "book": "Будет добавлен",
+  "icon": "book",
+  "color": "#3B5BA5",
+  "file": null,
+  "ready": false
+ },
+ {
+  "id": "slot-3",
+  "name": "Учебник 3",
+  "grade": "",
+  "book": "Будет добавлен",
+  "icon": "flask",
+  "color": "#8A5A2B",
+  "file": null,
+  "ready": false
+ },
+ {
+  "id": "slot-4",
+  "name": "Учебник 4",
+  "grade": "",
+  "book": "Будет добавлен",
+  "icon": "calc",
+  "color": "#6B4FA0",
+  "file": null,
+  "ready": false
+ },
+ {
+  "id": "slot-5",
+  "name": "Учебник 5",
+  "grade": "",
+  "book": "Будет добавлен",
+  "icon": "quill",
+  "color": "#9C3D54",
+  "file": null,
+  "ready": false
+ },
+ {
+  "id": "slot-6",
+  "name": "Учебник 6",
+  "grade": "",
+  "book": "Будет добавлен",
+  "icon": "atom",
+  "color": "#2C6E8F",
+  "file": null,
+  "ready": false
+ }
+]
