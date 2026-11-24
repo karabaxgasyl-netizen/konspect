@@ -1,62 +1,62 @@
 [
- {
-  "id": "geography-9",
-  "name": "География",
-  "grade": "9 класс",
-  "book": "Алексеев А. И. и др. «География России. Хозяйство и географические районы»",
-  "icon": "globe",
-  "color": "#2F6F5E",
-  "file": "data/geography-9.json",
-  "ready": true
- },
- {
-  "id": "slot-2",
-  "name": "Учебник 2",
-  "grade": "",
-  "book": "Будет добавлен",
-  "icon": "book",
-  "color": "#3B5BA5",
-  "file": null,
-  "ready": false
- },
- {
-  "id": "slot-3",
-  "name": "Учебник 3",
-  "grade": "",
-  "book": "Будет добавлен",
-  "icon": "flask",
-  "color": "#8A5A2B",
-  "file": null,
-  "ready": false
- },
- {
-  "id": "slot-4",
-  "name": "Учебник 4",
-  "grade": "",
-  "book": "Будет добавлен",
-  "icon": "calc",
-  "color": "#6B4FA0",
-  "file": null,
-  "ready": false
- },
- {
-  "id": "slot-5",
-  "name": "Учебник 5",
-  "grade": "",
-  "book": "Будет добавлен",
-  "icon": "quill",
-  "color": "#9C3D54",
-  "file": null,
-  "ready": false
- },
- {
-  "id": "slot-6",
-  "name": "Учебник 6",
-  "grade": "",
-  "book": "Будет добавлен",
-  "icon": "atom",
-  "color": "#2C6E8F",
-  "file": null,
-  "ready": false
- }
+  {
+    "id": "geography-9",
+    "name": "География",
+    "grade": "9 класс",
+    "book": "Алексеев А. И. и др. «География России. Хозяйство и географические районы»",
+    "icon": "globe",
+    "color": "#2F6F5E",
+    "file": "data/geography-9.json",
+    "ready": true
+  },
+  {
+    "id": "history-9-medinsky",
+    "name": "История",
+    "grade": "9 класс",
+    "book": "В. Р. Мединский, А. О. Чубарьян. «Всеобщая история», 2025",
+    "icon": "book",
+    "color": "#3B5BA5",
+    "file": "data/history-9-medinsky.json",
+    "ready": true
+  },
+  {
+    "id": "physics-9-peryshkin",
+    "name": "Физика",
+    "grade": "9 класс",
+    "book": "И. М. Перышкин и др. «Физика», базовый уровень, 2024",
+    "icon": "atom",
+    "color": "#2C6E8F",
+    "file": "data/physics-9-peryshkin.json",
+    "ready": true
+  },
+  {
+    "id": "social-9-medvedev",
+    "name": "Обществознание",
+    "grade": "9 класс",
+    "book": "Под редакцией Д. А. Медведева «Обществознание», 2026",
+    "icon": "book",
+    "color": "#6B4FA0",
+    "file": "data/social-9-medvedev.json",
+    "ready": true
+  },
+  {
+    "id": "biology-9-pasechnik",
+    "name": "Биология",
+    "grade": "9 класс",
+    "book": "В. В. Пасечник и др. «Биология», базовый уровень, 2023",
+    "icon": "globe",
+    "color": "#4D8063",
+    "file": "data/biology-9-pasechnik.json",
+    "ready": true
+  },
+  {
+    "id": "chemistry-9-gabrielyan",
+    "name": "Химия",
+    "grade": "9 класс",
+    "book": "О. С. Габриелян, И. Г. Остроумов, С. А. Сладков «Химия», 2024",
+    "icon": "flask",
+    "color": "#3E679D",
+    "file": "data/chemistry-9-gabrielyan.json",
+    "ready": true
+  }
 ]

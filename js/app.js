@@ -44,8 +44,9 @@ async function subject(id){await loadSubjects();const s=SUBJ.find(x=>x.id===id);
  <div class="box"><div class="lbl">Учебник</div><div>${esc(B.title)}</div><div class="book">${esc(B.authors)} · ${esc(B.publisher)}</div><div class="progress"><i style="width:${d/B.paragraphs.length*100}%"></i></div><div class="book">Изучено ${d} из ${B.paragraphs.length}</div></div>
  <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="sq" type="search" placeholder="Найти параграф или термин" autocomplete="off"></div><div id="plist"></div>`;
  draw('');$('#sq').oninput=e=>draw(e.target.value);}
-const LV={short:['Кратко','20–30%'],medium:['Средне','50–60%'],detailed:['Подробно','80–90%']};
+const LV={short:['Кратко','главное'],medium:['Средне','основное'],detailed:['Подробно','развёрнуто']};
 function renderLevel(P,lv){
+ if(P.prose&&typeof P.prose[lv]==='string')return `<p>${esc(P.prose[lv])}</p>`;
  if(lv==='short'){const S=P.short;let h='';
   if(S.concl.length)h+=`<div class="box"><div class="lbl">Главное</div><ul>${S.concl.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`;
   const T=S.terms.filter(t=>t.def);if(T.length)h+=`<div class="box"><div class="lbl">Термины</div>${T.map(t=>`<div class="term">${esc(t.term)}</div><div>${esc(t.def)}</div>`).join('')}</div>`;
@@ -68,7 +69,7 @@ async function para(b,id){await loadSubjects();const B=await loadBook(b);const P
  ${P.questions.length?`<details class="q"><summary>Вопросы и задания из учебника (${P.questions.length})</summary><ol>${P.questions.map(q=>`<li>${esc(q)}</li>`).join('')}</ol></details>`:''}
  <div class="actions"><button id="aFav">${'<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg>'}<span>Сохранить</span></button><button id="aDone"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg><span>Изучено</span></button><button id="aCopy"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg><span>Копировать</span></button><button id="aShare"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg><span>Поделиться</span></button></div>
  <div class="pager">${prev?`<a href="#/p/${b}/${prev.id}">← Назад<b>${esc(prev.num)}. ${esc(prev.title)}</b></a>`:'<span></span>'}${next?`<a class="next" href="#/p/${b}/${next.id}">Далее →<b>${esc(next.num)}. ${esc(next.title)}</b></a>`:''}</div>
- <p class="note">Сокращённые версии составлены из предложений учебника без добавления посторонних фактов. Иллюстрации, карты и таблицы смотрите в учебнике.</p>`;
+ <p class="note">Пересказы подготовлены по материалам учебника. Для иллюстраций, карт, таблиц и полного контекста обращайтесь к оригинальному изданию.</p>`;
  const upd=()=>{$('#aFav').classList.toggle('on',st.fav.includes(k));$('#aDone').classList.toggle('on',st.done.includes(k))};upd();
  app.querySelectorAll('.seg button').forEach(bt=>bt.onclick=()=>{st.level=bt.dataset.lv;save('level');app.querySelectorAll('.seg button').forEach(x=>x.classList.toggle('on',x===bt));$('#rd').innerHTML=renderLevel(P,st.level);$('#rd').style.animation='none';$('#rd').offsetHeight;$('#rd').style.animation=''});
  app.querySelectorAll('.font-ctl button').forEach(bt=>bt.onclick=()=>{st.font=Math.min(24,Math.max(15,st.font+ +bt.dataset.f));save('font');applyTheme()});
@@ -81,7 +82,7 @@ async function search(q){await loadAll();
  app.innerHTML=`<h1>Поиск</h1><form class="search" id="sf"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="gq" type="search" value="${esc(q)}" placeholder="Термин, тема, город, река…" enterkeyhint="search" autocomplete="off"></form><div id="res"></div>`;
  const run=v=>{const ql=v.trim().toLowerCase();if(ql.length<2){$('#res').innerHTML='<h2>Подсказки</h2><div class="chips">'+['нефть','Байкал','электростанции','Урал','машиностроение','чернозём','Крым','транспорт'].map(x=>`<button>${x}</button>`).join('')+'</div>';$('#res').querySelectorAll('.chips button').forEach(b=>b.onclick=()=>{$('#gq').value=b.textContent;run(b.textContent)});return}
   const out=[];for(const s of SUBJ){const B=BOOKS[s.id];if(!B)continue;for(const P of B.paragraphs){const head=(P.num+' '+P.title+' '+P.keywords.join(' ')).toLowerCase();let sc=head.includes(ql)?10:0,snip='';
-   if(!snip)for(const sec of P.detailed){for(const t of sec.p){if(t.toLowerCase().includes(ql)){sc+=1;if(!snip)snip=t}}}
+   if(!snip&&P.prose?.detailed){const t=P.prose.detailed;if(t.toLowerCase().includes(ql)){sc+=1;snip=t}}else if(!snip)for(const sec of P.detailed||[]){for(const t of sec.p||[]){if(t.toLowerCase().includes(ql)){sc+=1;if(!snip)snip=t}}}
    if(sc)out.push({s,P,sc,snip})}}
   out.sort((a,b)=>b.sc-a.sc);
   $('#res').innerHTML=out.length?`<h2>Найдено: ${out.length}</h2><div class="list">${out.slice(0,60).map(o=>`<a class="row hit" href="#/p/${o.s.id}/${o.P.id}"><span class="num">${esc(o.P.num)}</span><span class="ttl">${esc(o.P.title)}<span class="sub">${o.snip?hl(o.snip,ql):esc(o.s.name)}</span></span></a>`).join('')}</div>`:'<div class="empty">Ничего не найдено</div>'};
