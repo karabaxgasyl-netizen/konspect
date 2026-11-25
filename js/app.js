@@ -17,7 +17,7 @@ const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');clea
 // data
 let SUBJ=[];const BOOKS={};
 async function loadSubjects(){if(!SUBJ.length)SUBJ=await (await fetch('data/subjects.json')).json();return SUBJ}
-async function loadBook(id){if(BOOKS[id])return BOOKS[id];const s=SUBJ.find(x=>x.id===id);if(!s||!s.file)return null;BOOKS[id]=await (await fetch(s.file)).json();return BOOKS[id]}
+async function loadBook(id){if(BOOKS[id])return BOOKS[id];const s=SUBJ.find(x=>x.id===id);if(!s||!s.file)return null;const file=s.file+(id==='history-9-medinsky'?'?v=history-qa-3':'');BOOKS[id]=await (await fetch(file,{cache:'no-store'})).json();return BOOKS[id]}
 async function loadAll(){await loadSubjects();await Promise.all(SUBJ.filter(s=>s.ready).map(s=>loadBook(s.id)));}
 const key=(b,p)=>b+':'+p;
 const findP=(b,p)=>BOOKS[b]?.paragraphs.find(x=>String(x.id)===String(p));
