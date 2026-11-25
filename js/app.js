@@ -58,7 +58,11 @@ function renderLevel(P,lv){
  if(lv==='detailed'&&P.keywords.length)h+=`<div class="box"><div class="lbl">Ключевые слова</div><div class="kw">${P.keywords.map(k=>`<span>${esc(k)}</span>`).join('')}</div></div>`;
  return h}
 const chunk=a=>{const o=[];for(let i=0;i<a.length;i+=3)o.push(a.slice(i,i+3).join(' '));return o};
-function plain(P,lv){const el=document.createElement('div');el.innerHTML=renderLevel(P,lv);return P.num+'. '+P.title+'\n\n'+el.innerText.trim()}
+function renderChemistryFormulas(P,b){
+ if(b!=='chemistry-9-gabrielyan'||!Array.isArray(P.formulas)||!P.formulas.length)return '';
+ return `<section class="box chemistry-formulas"><div class="lbl">Формулы и уравнения к параграфу</div><div class="formula-list">${P.formulas.map((item,i)=>`<div class="formula-item"><div class="formula-equation">${esc(item.formula)}</div>${item.note?`<div class="formula-note">${esc(item.note)}</div>`:''}</div>`).join('')}</div></section>`;
+}
+function plain(P,lv){const el=document.createElement('div');el.innerHTML=renderLevel(P,lv);let out=P.num+'. '+P.title+'\n\n'+el.innerText.trim();if(Array.isArray(P.formulas)&&P.formulas.length)out+='\n\nФормулы и уравнения\n'+P.formulas.map((x,i)=>(i+1)+'. '+x.formula+(x.note?' — '+x.note:'')).join('\n');return out;}
 async function para(b,id){await loadSubjects();const B=await loadBook(b);const P=findP(b,id);if(!P){app.innerHTML='<div class="empty">Параграф не найден</div>';return}
  const k=key(b,P.id);st.hist=[k,...st.hist.filter(x=>x!==k)].slice(0,40);save('hist');st.last=k;save('last');
  const i=B.paragraphs.indexOf(P),prev=B.paragraphs[i-1],next=B.paragraphs[i+1];const s=SUBJ.find(x=>x.id===b);
@@ -66,6 +70,7 @@ async function para(b,id){await loadSubjects();const B=await loadBook(b);const P
  <div class="seg" role="tablist">${Object.entries(LV).map(([k,v])=>`<button role="tab" data-lv="${k}" class="${st.level===k?'on':''}">${v[0]}<small>${v[1]}</small></button>`).join('')}</div>
  <div class="font-ctl"><button data-f="-1" aria-label="Меньше шрифт">A−</button><button data-f="1" aria-label="Больше шрифт">A+</button></div>
  <article class="reader" id="rd">${renderLevel(P,st.level)}</article>
+ ${renderChemistryFormulas(P,b)}
  ${P.questions.length?`<details class="q"><summary>Вопросы и задания из учебника (${P.questions.length})</summary><ol>${P.questions.map(q=>`<li>${esc(q)}</li>`).join('')}</ol></details>`:''}
  <div class="actions"><button id="aFav">${'<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg>'}<span>Сохранить</span></button><button id="aDone"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg><span>Изучено</span></button><button id="aCopy"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg><span>Копировать</span></button><button id="aShare"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg><span>Поделиться</span></button></div>
  <div class="pager">${prev?`<a href="#/p/${b}/${prev.id}">← Назад<b>${esc(prev.num)}. ${esc(prev.title)}</b></a>`:'<span></span>'}${next?`<a class="next" href="#/p/${b}/${next.id}">Далее →<b>${esc(next.num)}. ${esc(next.title)}</b></a>`:''}</div>
