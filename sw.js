@@ -1,4 +1,4 @@
-const C='konspekt-v8';
+const C='konspekt-v9';
 const CORE=['./','index.html','css/style.css','js/app.js','data/subjects.json','data/geography-9.json','data/history-9-medinsky.json','data/physics-9-peryshkin.json','data/social-9-medvedev.json','data/biology-9-pasechnik.json','data/chemistry-9-gabrielyan.json','manifest.webmanifest','icons/icon.svg'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(CORE)));self.skipWaiting();});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))));self.clients.claim();});
